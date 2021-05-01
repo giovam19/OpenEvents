@@ -1,33 +1,153 @@
 package com.example.practica;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
+    private EditText email;
+    private EditText pass;
     private Button loginButton;
+    private TextView regsitrationButton;
+    private String accessToken;
+
+    private JSONArray eventsArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
+
+        email = (EditText) findViewById(R.id.emailLogin);
+        pass = (EditText) findViewById(R.id.passLogin);
 
         loginButton = (Button) findViewById(R.id.nextLoginButton);
+        regsitrationButton = (TextView) findViewById(R.id.registrationButton);
+        accessToken = null;
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String emailUser, passUser;
+
+                emailUser = email.getText().toString();
+                passUser = pass.getText().toString();
+
+                loginRequest(emailUser, passUser);
+
+                if (accessToken == null) {
+                    Toast toast;
+
+                    toast = Toast.makeText(MainActivity.this, "Usuario o Contraseña\nno validos", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 40);
+
+                    toast.show();
+                }
+                //getEventsFromAPI();
+            }
+        });
+
+        regsitrationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Toast toast;
 
-                toast = Toast.makeText(MainActivity.this, "Login", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(MainActivity.this, "Going to Registration Window", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP, 0, 40);
 
                 toast.show();
             }
         });
+    }
+
+    private void loginRequest(String emailUser, String passUser) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://puigmal.salle.url.edu/api/login/";
+
+
+        StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    accessToken = new JSONObject(response).getString("accessToken");
+                    System.out.println(accessToken);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("no acces token");
+                }
+                System.out.println(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //error.printStackTrace();
+                //System.out.println("error onresponse " + error);
+            }
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("email", emailUser);
+                params.put("password", passUser);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-type", "application/json");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+
+    private void getEventsFromAPI() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://puigmal.salle.url.edu/api/events";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    eventsArray = response.getJSONArray("");
+                    System.out.println(eventsArray);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("onresponse Error "+error);
+            }
+        });
+        queue.add(jsonObjectRequest);
     }
 }

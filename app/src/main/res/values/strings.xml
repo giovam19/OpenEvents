@@ -6,4 +6,20 @@
     <string name="next">N E X T</string>
     <string name="no_cuenta">No tienes una cuenta?</string>
     <string name="registrate">Registrate</string>
+    <string name="username">UserName</string>
+    <string name="events">E V E N T S</string>
+    <string name="mas">+</string>
+    <string name="filter">Filter ></string>
+    <string name="month">Month</string>
+    <string name="day">17</string>
+    <string name="title">Title</string>
+    <string-array name="filter_modes">
+        <item>All Events</item>
+        <item>Music</item>
+        <item>Education</item>
+        <item>Sports</item>
+        <item>Games</item>
+        <item>Travel</item>
+        <item>Other</item>
+    </string-array>
 </resources>
