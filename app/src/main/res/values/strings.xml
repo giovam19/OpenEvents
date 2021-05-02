@@ -13,6 +13,16 @@
     <string name="month">Month</string>
     <string name="day">17</string>
     <string name="title">Title</string>
+    <string name="logout_question">Do you want to Logout?</string>
+    <string name="log_out">Log out</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="perfil">Perfil</string>
+    <string name="eventos_reados">Eventos creados</string>
+    <string name="eventos_guardados">Eventos guardados</string>
+    <string name="eventos_participados">Eventos participados</string>
+    <string name="crear_eventos">Crear evento</string>
+
     <string-array name="filter_modes">
         <item>All Events</item>
         <item>Music</item>

@@ -3,6 +3,7 @@ package com.example.practica;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -34,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView regsitrationButton;
     private String accessToken;
 
-    private JSONArray eventsArray;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
                 emailUser = email.getText().toString();
                 passUser = pass.getText().toString();
 
-                loginRequest(emailUser, passUser);
+                Intent intent = new Intent(MainActivity.this, ListEvents.class);
+                startActivity(intent);
+
+                /*loginRequest(emailUser, passUser);
 
                 if (accessToken == null) {
                     Toast toast;
@@ -65,8 +67,9 @@ public class MainActivity extends AppCompatActivity {
                     toast.setGravity(Gravity.TOP, 0, 40);
 
                     toast.show();
-                }
-                //getEventsFromAPI();
+                } else {
+                    //pasa a la pantalla principal
+                }*/
             }
         });
 
@@ -128,26 +131,4 @@ public class MainActivity extends AppCompatActivity {
         queue.add(sr);
     }
 
-    private void getEventsFromAPI() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://puigmal.salle.url.edu/api/events";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    eventsArray = response.getJSONArray("");
-                    System.out.println(eventsArray);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("onresponse Error "+error);
-            }
-        });
-        queue.add(jsonObjectRequest);
-    }
 }
