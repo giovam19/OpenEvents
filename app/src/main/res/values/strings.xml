@@ -24,6 +24,7 @@
     <string name="eventos_guardados">Eventos guardados</string>
     <string name="eventos_participados">Eventos participados</string>
     <string name="crear_eventos">Crear evento</string>
+    <string name="contacto">Contact</string>
 
     <string-array name="filter_modes">
         <item>All Events</item>
