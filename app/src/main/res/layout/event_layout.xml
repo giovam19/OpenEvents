@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rectangulo_superior_user"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <ImageView
+            android:id="@+id/backButtonEvent"
+            android:layout_width="46dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="?attr/homeAsUpIndicator" />
+
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="168dp"
+            android:layout_marginLeft="168dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:src="@drawable/boton_claro"
+            android:text="@string/contacto"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/eventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="@string/title"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </TextView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addQuitButtons"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginStart="0dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/eventTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:layout_marginLeft="0dp">
+
+            <Button
+                android:id="@+id/añadir_event"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/boton_claro"
+                android:text="@string/mas"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </Button>
+
+            <Button
+                android:id="@+id/quitar_event"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="210dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/boton_claro"
+                android:text="@string/mas"
+                app:layout_constraintStart_toStartOf="@id/añadir_event"
+                app:layout_constraintTop_toTopOf="parent">
+            </Button>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/image_event"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/addQuitButtons"
+            app:layout_constraintHorizontal_bias="0.516"
+            app:layout_constraintStart_toStartOf="@id/addQuitButtons"
+            app:layout_constraintTop_toTopOf="@id/addQuitButtons"
+            app:layout_constraintVertical_bias="0.181"
+            app:srcCompat="@android:drawable/ic_dialog_info" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dates"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="280dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/image_event"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintTop_toTopOf="@id/image_event">
+
+            <TextView
+                android:id="@+id/monthTextStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="90dp"
+                android:layout_marginLeft="59dp"
+                android:layout_marginEnd="62dp"
+                android:layout_marginRight="62dp"
+                android:text="@string/month"
+                android:textColor="@color/orange"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/taskImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </TextView>
+
+            <TextView
+                android:id="@+id/dayTextStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="106dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginEnd="75dp"
+                android:layout_marginRight="75dp"
+                android:text="@string/day"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/taskImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/monthTextStart">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="200dp"
+                android:layout_marginLeft="200dp"
+                android:text="-"
+                android:textColor="@color/black"
+                android:textSize="35dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </TextView>
+
+            <TextView
+                android:id="@+id/monthTextEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="270dp"
+                android:layout_marginLeft="59dp"
+                android:layout_marginEnd="62dp"
+                android:layout_marginRight="62dp"
+                android:text="@string/month"
+                android:textColor="@color/orange"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/taskImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </TextView>
+
+            <TextView
+                android:id="@+id/dayTextEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="286dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginEnd="75dp"
+                android:layout_marginRight="75dp"
+                android:text="@string/day"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/taskImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/monthTextEnd">
+            </TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
