@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Practica</string>
+    <string name="name">Name</string>
+    <string name="user">User</string>
     <string name="login">L O G I N</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

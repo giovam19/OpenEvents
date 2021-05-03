@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practica">
-        <activity android:name=".UserOptions"></activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".UserOptions" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListEvents"></activity>
+        <activity android:name=".ListEvents" />
         <activity
             android:name=".LogoutDialog"
-            android:theme="@style/LogoutDialog"></activity>
+            android:theme="@style/LogoutDialog" />
     </application>
 
 </manifest>
