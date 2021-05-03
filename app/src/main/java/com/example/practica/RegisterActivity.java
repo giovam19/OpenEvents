@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (imagePath == null) {
                     toast = Toast.makeText(RegisterActivity.this, "Image load failed!", Toast.LENGTH_SHORT);
                 } else {
-                    makeRegister(name, lastname, mail, pass);
+                    makeRegister(name, lastname, mail, pass, imagePath);
                     if (registerRequest == null) {
                         toast = Toast.makeText(RegisterActivity.this, "Register Error\nEmpty camp or Email already exists", Toast.LENGTH_SHORT);
 
@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void makeRegister(String name, String lastname, String email, String pass) {
+    private void makeRegister(String name, String lastname, String email, String pass, String imagePath) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://puigmal.salle.url.edu/api/users/";
 
@@ -120,6 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("error onresponse " + error);
+                System.out.println(registerRequest);
             }
         }) {
             @Nullable
@@ -129,6 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 params.put("name", name);
                 params.put("last_name", lastname);
+                params.put("image", imagePath);
                 params.put("email", email);
                 params.put("password", pass);
 

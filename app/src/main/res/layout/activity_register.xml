@@ -45,7 +45,6 @@
                 android:background="@drawable/boton2"
                 android:gravity="center"
                 android:hint="@string/name"
-                android:textColorHint="@color/black"
                 android:textSize="20dp" />
 
             <EditText
@@ -56,7 +55,6 @@
                 android:background="@drawable/boton2"
                 android:gravity="center"
                 android:hint="@string/lastname"
-                android:textColorHint="@color/black"
                 android:textSize="20dp" />
 
             <EditText
@@ -66,7 +64,6 @@
                 android:background="@drawable/boton2"
                 android:gravity="center"
                 android:hint="@string/email"
-                android:textColorHint="@color/black"
                 android:textSize="20dp" />
 
             <EditText
@@ -77,7 +74,6 @@
                 android:background="@drawable/boton2"
                 android:gravity="center"
                 android:hint="@string/password"
-                android:textColorHint="@color/black"
                 android:textSize="20dp" />
 
             <EditText
@@ -87,7 +83,6 @@
                 android:background="@drawable/boton2"
                 android:gravity="center"
                 android:hint="@string/cpassword"
-                android:textColorHint="@color/black"
                 android:textSize="20dp" />
 
             <Button

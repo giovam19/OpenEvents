@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practica">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".NewEventActivity"></activity>
+        <activity android:name=".EventActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".UserOptions" />
         <activity android:name=".MainActivity">
             <intent-filter>

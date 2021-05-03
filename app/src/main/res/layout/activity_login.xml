@@ -55,8 +55,7 @@
             android:layout_marginTop="50dp"
             android:background="@drawable/fondo_campos"
             android:gravity="center"
-            android:hint="@string/email"
-            android:textColorHint="@color/black" />
+            android:hint="@string/email" />
 
         <EditText
             android:id="@+id/passLogin"
@@ -66,8 +65,7 @@
             android:background="@drawable/fondo_campos"
             android:gravity="center"
             android:hint="@string/password"
-            android:inputType="textPassword"
-            android:textColorHint="@color/black" />
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/nextLoginButton"

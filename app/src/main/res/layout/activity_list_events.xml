@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="44dp"
         android:background="@drawable/rectangulo_superior_user"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
@@ -23,15 +23,15 @@
             android:layout_height="35dp"
             android:layout_marginStart="42dp"
             android:layout_marginLeft="42dp"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="11dp"
             android:layout_marginEnd="311dp"
             android:layout_marginRight="311dp"
+            android:clickable="true"
+            android:src="@drawable/boton_claro"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/boton_claro"
-            android:clickable="true"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/userNameText"
@@ -39,12 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="16dp"
             android:text="@string/username"
             android:textColor="@color/white"
             android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/userImage"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,10 +96,9 @@
             android:entries="@array/filter_modes"
             android:prompt="@string/filter"
             android:spinnerMode="dropdown"
-            android:tag="@string/filter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/newTask"
-            app:layout_constraintTop_toTopOf="parent"></Spinner>
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
