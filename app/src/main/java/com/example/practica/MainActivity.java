@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                     toast.show();
                 } else {
                     //pasa a la pantalla principal
+                    //Intent intent = new Intent(MainActivity.this, ListEvents.class);
+                    //startActivity(intent);
                 }*/
             }
         });
@@ -76,12 +78,8 @@ public class MainActivity extends AppCompatActivity {
         regsitrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast;
-
-                toast = Toast.makeText(MainActivity.this, "Going to Registration Window", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.TOP, 0, 40);
-
-                toast.show();
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -106,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //error.printStackTrace();
-                //System.out.println("error onresponse " + error);
+                System.out.println("error onresponse " + error);
             }
         }) {
             @Nullable
