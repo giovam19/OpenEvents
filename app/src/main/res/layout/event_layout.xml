@@ -227,7 +227,9 @@
         app:layout_constraintEnd_toEndOf="@id/constraintLayout3"
         android:background="@drawable/fondo_item_lista">
 
-        <FrameLayout
+
+        <LinearLayout
+            android:id="@+id/description"
             android:layout_width="310dp"
             android:layout_height="90dp"
             android:layout_marginStart="32dp"
@@ -237,9 +239,11 @@
             app:layout_constraintBottom_toBottomOf="@id/info"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/info"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintVertical_bias="1.0"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/descriptionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/descripcion"
@@ -248,7 +252,110 @@
                 android:layout_marginTop="5dp"
                 android:textSize="15dp">
             </TextView>
-        </FrameLayout>
+
+            <EditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@null">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ubication"
+            android:layout_width="310dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="90dp"
+            android:background="@drawable/dialogo_texto"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/info"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ubication2"
+                android:textColor="@color/black"
+                android:layout_marginLeft="35dp"
+                android:textSize="15dp">
+            </TextView>
+
+            <EditText
+                android:id="@+id/ubicationText"
+                android:layout_width="189dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="3dp"
+                android:background="@null">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/max_people"
+            android:layout_width="310dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="55dp"
+            android:background="@drawable/dialogo_texto"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/info"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/max_people"
+                android:textColor="@color/black"
+                android:layout_marginLeft="35dp"
+                android:textSize="15dp">
+            </TextView>
+
+            <EditText
+                android:id="@+id/maxPeopleText"
+                android:layout_width="180dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="3dp"
+                android:background="@null">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/type"
+            android:layout_width="310dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/dialogo_texto"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/info"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:textColor="@color/black"
+                android:layout_marginLeft="35dp"
+                android:textSize="15dp">
+            </TextView>
+
+            <EditText
+                android:id="@+id/typeText"
+                android:layout_width="220dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="3dp"
+                android:background="@null">
+            </EditText>
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
