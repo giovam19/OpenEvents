@@ -1,4 +1,6 @@
 package com.example.practica;
 
-public class SavedEventsOption {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SavedEventsOption extends AppCompatActivity {
 }
