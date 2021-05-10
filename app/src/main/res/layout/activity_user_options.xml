@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/creadosUO"
+            android:id="@+id/createdEvents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
@@ -115,7 +115,7 @@
             android:text="@string/eventos_guardados"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/creadosUO" />
+            app:layout_constraintTop_toBottomOf="@+id/createdEvents" />
 
         <Button
             android:id="@+id/participadosUO"
@@ -165,19 +165,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newEventUO" />
 
-        <TextView
+        <Button
             android:id="@+id/logoutUO"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="142dp"
+            android:layout_height="30dp"
             android:layout_marginStart="140dp"
             android:layout_marginLeft="140dp"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="140dp"
             android:layout_marginRight="140dp"
             android:layout_marginBottom="15dp"
+            android:background="@drawable/boton_claro"
+            android:backgroundTint="@color/green2"
             android:clickable="true"
             android:text="@string/log_out"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

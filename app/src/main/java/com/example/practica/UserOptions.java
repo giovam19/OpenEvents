@@ -16,6 +16,10 @@ public class UserOptions extends AppCompatActivity {
     private ImageView backButton;
     private TextView logout;
     private Button newEvent;
+    private Button perfil;
+    private Button listCreatedEvents;
+    private Button listSavedEvents;
+    private Button listParticipatedEvents;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -29,6 +33,10 @@ public class UserOptions extends AppCompatActivity {
         backButton = (ImageView) findViewById(R.id.backButton);
         logout = (TextView) findViewById(R.id.logoutUO);
         newEvent = (Button) findViewById(R.id.newEventUO);
+        perfil = (Button) findViewById(R.id.perfilButton);
+        listCreatedEvents = (Button) findViewById(R.id.createdEvents);
+        listSavedEvents = (Button) findViewById(R.id.guardadosUO);
+        listParticipatedEvents = (Button) findViewById(R.id.participadosUO);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +58,30 @@ public class UserOptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserOptions.this, NewEventActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        perfil.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserOptions.this, PerfilOption.class);
+                startActivity(intent);
+            }
+        });
+
+        listCreatedEvents.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserOptions.this, CreatedEventsOption.class);
+                startActivity(intent);
+            }
+        });
+
+        listSavedEvents.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserOptions.this, SavedEventsOption.class);
                 startActivity(intent);
             }
         });
