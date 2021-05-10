@@ -44,6 +44,7 @@
     <string name="eventosCreados">Num eventos creados</string>
     <string name="eventosParticipados">Num eventos participados</string>
     <string name="personasContactadas">Num personas contactadas</string>
+    <string name="save">S A V E</string>
 
     <string-array name="filter_modes">
         <item>All Events</item>
