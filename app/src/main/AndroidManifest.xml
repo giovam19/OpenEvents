@@ -12,13 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practica">
-        <activity android:name=".NewEventActivity"/>
+        <activity android:name=".NewEventActivity"></activity>
         <activity android:name=".EventActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".UserOptions" />
         <activity android:name=".PerfilOption"/>
-        <activity android:name=".SavedEventsOption"/>
-        <activity android:name=".CreatedEventsOption"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

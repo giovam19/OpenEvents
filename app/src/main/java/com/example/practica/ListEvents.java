@@ -46,8 +46,11 @@ public class ListEvents extends AppCompatActivity {
     private Button newTask;
     private Spinner filter;
     private RecyclerView eventList;
+    private String accessToken;
+    private String option;
 
     private JSONArray eventsArray;
+    private JSONArray eventsToShow;
     private ListEventAdapter adapter;
 
     public static final int FINISH_CODE = 1;
@@ -58,6 +61,8 @@ public class ListEvents extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
 
+        accessToken = getIntent().getStringExtra("accessToken");
+
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.light_blue));
 
@@ -67,6 +72,10 @@ public class ListEvents extends AppCompatActivity {
         filter = (Spinner) findViewById(R.id.filter);
         eventList = (RecyclerView) findViewById(R.id.eventList);
         eventList.setLayoutManager(new LinearLayoutManager(this));
+        eventsToShow = new JSONArray();
+
+        getEventsFromAPI();
+
 
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this, R.array.filter_modes, android.R.layout.simple_spinner_item);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -74,16 +83,16 @@ public class ListEvents extends AppCompatActivity {
         filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String option = parent.getItemAtPosition(position).toString();
-                System.out.println(option);
-                getEventsFromAPI(option);
-                updateUI();
+                option = parent.getItemAtPosition(position).toString();
+                if (!option.equals("All Events")) {
+                    eventsToShow = fillArray(option);
+                    adapter = null;
+                    updateUI();
+                }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         userImage.setOnClickListener(new View.OnClickListener() {
@@ -107,23 +116,44 @@ public class ListEvents extends AppCompatActivity {
 
     private void updateUI() {
         if (adapter == null) {
-            adapter = new ListEventAdapter(eventsArray);
+            adapter = new ListEventAdapter(eventsToShow);
             eventList.setAdapter(adapter);
         } else {
             adapter.notifyDataSetChanged();
         }
     }
 
-    private void getEventsFromAPI(String filter) {
+    private JSONArray fillArray(String option) {
+        try {
+            JSONArray array = new JSONArray();
+
+            for (int i = 0; i < eventsArray.length(); i++) {
+                String op = (String) eventsArray.getJSONObject(i).get("type");
+                if (op.equals(option)) {
+                    array.put(eventsArray.getJSONObject(i));
+                }
+            }
+
+            return array;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void getEventsFromAPI() {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://puigmal.salle.url.edu/api/events";
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
                     eventsArray = response;
-                    adapter = new ListEventAdapter(eventsArray);
+                    eventsToShow = eventsArray;
+                    adapter = new ListEventAdapter(eventsToShow);
                     eventList.setAdapter(adapter);
+                    updateUI();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -135,15 +165,11 @@ public class ListEvents extends AppCompatActivity {
 
             }
         }){
-            @Nullable
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("t", filter);
-
-                return params;
-
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer" + accessToken);
+                return headers;
             }
         };
         queue.add(jsonArrayRequest);

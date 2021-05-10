@@ -88,20 +88,21 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (!pass.equals(cpassw)) {
                     toast = Toast.makeText(RegisterActivity.this, "Passwords dont match!!", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 40);
+                    toast.show();
                 } else if (imagePath == null) {
-                    toast = Toast.makeText(RegisterActivity.this, "Image load failed!", Toast.LENGTH_SHORT);
+                    imagePath = " ";
+                    makeRegister(name, lastname, mail, pass, imagePath);
                 } else {
                     makeRegister(name, lastname, mail, pass, imagePath);
                     if (registerRequest == null) {
                         toast = Toast.makeText(RegisterActivity.this, "Register Error\nEmpty camp or Email already exists", Toast.LENGTH_SHORT);
-
                     } else {
                         toast = Toast.makeText(RegisterActivity.this, "Register successfully", Toast.LENGTH_SHORT);
-
                     }
+                    toast.setGravity(Gravity.TOP, 0, 40);
+                    toast.show();
                 }
-                toast.setGravity(Gravity.TOP, 0, 40);
-                toast.show();
             }
         });
     }
@@ -110,11 +111,22 @@ public class RegisterActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://puigmal.salle.url.edu/api/users/";
 
-        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("name", name);
+            params.put("last_name", lastname);
+            params.put("image", imagePath);
+            params.put("email", email);
+            params.put("password", pass);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 registerRequest = response;
-                System.out.println(registerRequest);
+                finish();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -123,20 +135,6 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println(registerRequest);
             }
         }) {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("name", name);
-                params.put("last_name", lastname);
-                params.put("image", imagePath);
-                params.put("email", email);
-                params.put("password", pass);
-
-                return params;
-            }
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();

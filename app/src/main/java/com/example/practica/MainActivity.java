@@ -52,26 +52,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String emailUser, passUser;
 
-                emailUser = email.getText().toString();
-                passUser = pass.getText().toString();
+                emailUser = "algo@gmail.com"; //email.getText().toString();
+                passUser = "123456789"; //pass.getText().toString();
 
-                Intent intent = new Intent(MainActivity.this, ListEvents.class);
-                startActivity(intent);
+                loginRequest(emailUser, passUser);
 
-                /*loginRequest(emailUser, passUser);
-
-                if (accessToken == null) {
-                    Toast toast;
-
-                    toast = Toast.makeText(MainActivity.this, "Usuario o Contraseña\nno validos", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP, 0, 40);
-
-                    toast.show();
-                } else {
-                    //pasa a la pantalla principal
-                    //Intent intent = new Intent(MainActivity.this, ListEvents.class);
-                    //startActivity(intent);
-                }*/
             }
         });
 
@@ -88,36 +73,38 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://puigmal.salle.url.edu/api/login/";
 
+        JSONObject params = new JSONObject();
+        try {
+            params.put("email", emailUser);
+            params.put("password", passUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        JsonObjectRequest or = new JsonObjectRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 try {
-                    accessToken = new JSONObject(response).getString("accessToken");
-                    System.out.println(accessToken);
+                    accessToken = response.getString("accessToken");
+                    Intent intent = new Intent(MainActivity.this, ListEvents.class);
+                    intent.putExtra("accessToken", accessToken);
+                    startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("no acces token");
                 }
-                System.out.println(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("error onresponse " + error);
+                Toast toast;
+
+                toast = Toast.makeText(MainActivity.this, "Usuario o Contraseña\nno validos", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 40);
+
+                toast.show();
             }
         }) {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("email", emailUser);
-                params.put("password", passUser);
-
-                return params;
-            }
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
@@ -125,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 return params;
             }
         };
-        queue.add(sr);
+
+        queue.add(or);
     }
 
 }

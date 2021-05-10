@@ -1,6 +1,7 @@
 package com.example.practica;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.util.Date;
 
 public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.ViewHolder> {
 
@@ -75,6 +81,18 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
         localDataSet = dataSet;
     }
 
+    private String createMonth(String date) {
+        String[] splitDate = date.split(":");
+        String[] utilDate = splitDate[0].split("-");
+
+        switch (utilDate[1]) {
+            case "01":
+                return "Jan";
+            default:
+                return "May";
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -86,12 +104,12 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         try {
-            String month = (String)localDataSet.getJSONObject(position).get("date");
-            String day = month;//(String)localDataSet.getJSONObject(position).get("date");
+            String month = createMonth((String) localDataSet.getJSONObject(position).get("date"));
+            System.out.println(month);
             String title = (String)localDataSet.getJSONObject(position).get("name");
 
             holder.getMonth().setText(month);
-            holder.getDay().setText(day);
+            holder.getDay().setText(month);
             holder.getTitle().setText(title);
 
             holder.bind(localDataSet.getJSONObject(position));
