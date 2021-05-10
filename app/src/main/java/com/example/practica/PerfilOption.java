@@ -2,6 +2,7 @@ package com.example.practica;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +45,22 @@ public class PerfilOption extends AppCompatActivity {
         numContactedPeople = (TextView) findViewById(R.id.personasContactadas);
         save = (Button) findViewById(R.id.buttonSave);
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nam = name.getText().toString();
+                String usr = user.getText().toString();
+                String mail = email.getText().toString();
+                String pass = password.getText().toString();
+                String repPass = repeatPassword.getText().toString();
+            }
+        });
     }
 }
