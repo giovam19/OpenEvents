@@ -1,6 +1,7 @@
 package com.example.practica;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -60,16 +61,9 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
         @Override
         public void onClick(View v) {
             Context context = v.getContext();
+            Intent intent = new Intent(context, EventActivity.class);
 
-            Toast toast;
-
-            toast = Toast.makeText(v.getContext(), "Going to Registration Window", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP, 0, 40);
-
-            toast.show();
-
-            //accion cuando presionas un evento
-            //System.out.println("Going to Registration Window");
+            context.startActivity(intent);
         }
 
         public void bind(JSONObject event) {
@@ -88,9 +82,39 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
         switch (utilDate[1]) {
             case "01":
                 return "Jan";
-            default:
+            case  "02":
+                return "Feb";
+            case "03":
+                return "Mar";
+            case "04":
+                return "Apr";
+            case "05":
                 return "May";
+            case "06":
+                return "Jun";
+            case "07":
+                return "Jul";
+            case "08":
+                return "Aug";
+            case "09":
+                return "Sep";
+            case "10":
+                return "Oct";
+            case "11":
+                return "Nov";
+            case "12":
+                return "Dec";
+            default:
+                return "";
         }
+    }
+
+    private String createDay(String date) {
+        String[] splitDate = date.split(":");
+        String[] utilDate = splitDate[0].split("-");
+        String[] day = utilDate[2].split("T");
+
+        return day[0];
     }
 
     @Override
@@ -105,11 +129,11 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         try {
             String month = createMonth((String) localDataSet.getJSONObject(position).get("date"));
-            System.out.println(month);
+            String day = createDay((String) localDataSet.getJSONObject(position).get("date"));
             String title = (String)localDataSet.getJSONObject(position).get("name");
 
             holder.getMonth().setText(month);
-            holder.getDay().setText(month);
+            holder.getDay().setText(day);
             holder.getTitle().setText(title);
 
             holder.bind(localDataSet.getJSONObject(position));

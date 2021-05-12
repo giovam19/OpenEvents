@@ -93,15 +93,6 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (imagePath == null) {
                     imagePath = " ";
                     makeRegister(name, lastname, mail, pass, imagePath);
-                } else {
-                    makeRegister(name, lastname, mail, pass, imagePath);
-                    if (registerRequest == null) {
-                        toast = Toast.makeText(RegisterActivity.this, "Register Error\nEmpty camp or Email already exists", Toast.LENGTH_SHORT);
-                    } else {
-                        toast = Toast.makeText(RegisterActivity.this, "Register successfully", Toast.LENGTH_SHORT);
-                    }
-                    toast.setGravity(Gravity.TOP, 0, 40);
-                    toast.show();
                 }
             }
         });
@@ -126,11 +117,18 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 registerRequest = response;
+                Toast toast = Toast.makeText(RegisterActivity.this, "Register successfully", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 40);
+                toast.show();
                 finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast toast = Toast.makeText(RegisterActivity.this, "Register Error\nEmpty camp or Email already exists", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 40);
+                toast.show();
+
                 System.out.println("error onresponse " + error);
                 System.out.println(registerRequest);
             }

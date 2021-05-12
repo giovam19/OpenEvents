@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String emailUser, passUser;
 
-                emailUser = "algo@gmail.com"; //email.getText().toString();
-                passUser = "123456789"; //pass.getText().toString();
+                emailUser = "algo@gmail.com";//email.getText().toString();
+                passUser = "123456789";//pass.getText().toString();
 
                 loginRequest(emailUser, passUser);
 
@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     accessToken = response.getString("accessToken");
                     Intent intent = new Intent(MainActivity.this, ListEvents.class);
                     intent.putExtra("accessToken", accessToken);
+                    intent.putExtra("email", emailUser);
+                    System.out.println(accessToken);
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
