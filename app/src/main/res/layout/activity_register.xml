@@ -67,7 +67,7 @@
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/newPassword"
                 android:layout_width="300dp"
                 android:layout_height="45dp"
                 android:layout_margin="20dp"

@@ -42,7 +42,6 @@ public class NewEventActivity extends AppCompatActivity {
     private EditText maxPeople;
     private EditText type;
     private String imagePath;
-    private String accessToken;
 
     private JSONObject createRequest;
 
@@ -57,7 +56,6 @@ public class NewEventActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.light_blue));
 
-        accessToken = getIntent().getStringExtra("accessToken");
         createRequest = null;
         imagePath = null;
         name = (EditText) findViewById(R.id.nameNE);
@@ -81,18 +79,24 @@ public class NewEventActivity extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nam = name.getText().toString();
-                String descrip = description.getText().toString();
-                String ubi = ubication.getText().toString();
-                String strt = start.getText().toString();
-                String nd = end.getText().toString();
-                int mxplp = Integer.parseInt(maxPeople.getText().toString());
-                String tpe = type.getText().toString();
-                if (imagePath == null) {
-                    imagePath = " ";
-                }
+                try {
+                    String nam = name.getText().toString();
+                    String descrip = description.getText().toString();
+                    String ubi = ubication.getText().toString();
+                    String strt = start.getText().toString();
+                    String nd = end.getText().toString();
+                    int mxplp = Integer.parseInt(maxPeople.getText().toString());
+                    String tpe = type.getText().toString();
+                    if (imagePath == null) {
+                        imagePath = "123456789";
+                    }
 
-                createEventAPI(nam, descrip, ubi, strt, nd, mxplp, tpe, imagePath);
+                    createEventAPI(nam, descrip, ubi, strt, nd, mxplp, tpe, imagePath);
+                } catch (Exception e) {
+                    Toast toast = Toast.makeText(NewEventActivity.this, "Error\nExisten campos vacios", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                }
             }
         });
 
@@ -143,14 +147,13 @@ public class NewEventActivity extends AppCompatActivity {
                 toast.show();
 
                 System.out.println("error onresponse " + error);
-                System.out.println(createRequest);
+                System.out.println(User.getUser().getToken());
             }
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer" + accessToken);
-                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + User.getUser().getToken());
                 return headers;
             }
         };

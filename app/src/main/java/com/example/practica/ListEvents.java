@@ -39,7 +39,6 @@ public class ListEvents extends AppCompatActivity {
     private Button newTask;
     private Spinner filter;
     private RecyclerView eventList;
-    private String accessToken;
     private String option;
 
     private JSONArray eventsArray;
@@ -54,8 +53,6 @@ public class ListEvents extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
 
-        accessToken = getIntent().getStringExtra("accessToken");
-
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.light_blue));
 
@@ -67,7 +64,7 @@ public class ListEvents extends AppCompatActivity {
         eventList.setLayoutManager(new LinearLayoutManager(this));
         eventsToShow = new JSONArray();
 
-        userName.setText(getNameFromToken());
+        userName.setText(User.getUser().getUserName());
         getEventsFromAPI();
 
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this, R.array.filter_modes, android.R.layout.simple_spinner_item);
@@ -82,7 +79,6 @@ public class ListEvents extends AppCompatActivity {
                 } else {
                     eventsToShow = eventsArray;
                 }
-                adapter = null;
                 updateUI();
             }
 
@@ -102,8 +98,8 @@ public class ListEvents extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ListEvents.this, NewEventActivity.class);
-                intent.putExtra("accessToken", accessToken);
                 startActivity(intent);
+                updateUI();
             }
         });
 
@@ -111,30 +107,8 @@ public class ListEvents extends AppCompatActivity {
     }
 
     private void updateUI() {
-        if (adapter == null) {
-            adapter = new ListEventAdapter(eventsToShow);
-            eventList.setAdapter(adapter);
-        } else {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private String getNameFromToken() {
-        Base64.Decoder decoder = Base64.getDecoder();
-        String[] chunks = accessToken.split("\\.");
-
-        String payload = new String(decoder.decode(chunks[1]));
-        payload = payload.replace("{", "");
-        payload = payload.replace("}", "");
-
-        String[] camps = payload.split(",");
-        String[] name = camps[1].split(":");
-        name[1] = name[1].replace("\"", "");
-        String[] lastname = camps[2].split(":");
-        lastname[1] = lastname[1].replace("\"", "");
-
-        return name[1] + " " + lastname[1];
+        adapter = new ListEventAdapter(eventsToShow);
+        eventList.setAdapter(adapter);
     }
 
     private JSONArray fillArray(String option) {
@@ -182,7 +156,7 @@ public class ListEvents extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer" + accessToken);
+                headers.put("Authorization", "Bearer" + User.getUser().getToken());
                 return headers;
             }
         };
@@ -193,6 +167,12 @@ public class ListEvents extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(ListEvents.this, LogoutDialog.class);
         startActivityForResult(intent, FINISH_CODE);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        userName.setText(User.getUser().getUserName());
     }
 
     @Override

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         nombre = (TextView) findViewById(R.id.nombre);
         apellido = (TextView) findViewById(R.id.apellido);
         email = (TextView) findViewById(R.id.email);
-        password = (TextView) findViewById(R.id.password);
+        password = (TextView) findViewById(R.id.newPassword);
         cpass = (TextView) findViewById(R.id.cpassword);
         addImage = (Button) findViewById(R.id.addImage);
         userImage = (ImageView) findViewById(R.id.userImageLoad);

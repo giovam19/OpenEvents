@@ -15,11 +15,13 @@ import android.widget.TextView;
 public class UserOptions extends AppCompatActivity {
     private ImageView backButton;
     private TextView logout;
+    private TextView userName;
     private Button newEvent;
     private Button perfil;
     private Button listCreatedEvents;
     private Button listSavedEvents;
     private Button listParticipatedEvents;
+    private Button chats;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -32,11 +34,15 @@ public class UserOptions extends AppCompatActivity {
 
         backButton = (ImageView) findViewById(R.id.backButton);
         logout = (TextView) findViewById(R.id.logoutUO);
+        userName = (TextView) findViewById(R.id.userNameUO);
         newEvent = (Button) findViewById(R.id.newEventUO);
         perfil = (Button) findViewById(R.id.perfilButton);
         listCreatedEvents = (Button) findViewById(R.id.createdEvents);
         listSavedEvents = (Button) findViewById(R.id.guardadosUO);
         listParticipatedEvents = (Button) findViewById(R.id.participadosUO);
+        chats = (Button) findViewById(R.id.chatsUO);
+
+        userName.setText(User.getUser().getUserName());
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +91,29 @@ public class UserOptions extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        listParticipatedEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserOptions.this, ParticipatedEvents.class);
+                startActivity(intent);
+            }
+        });
+
+        chats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        userName.setText(User.getUser().getUserName());
     }
 
     private void closeActivity(boolean isYes) {

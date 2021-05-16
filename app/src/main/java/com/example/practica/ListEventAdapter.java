@@ -3,6 +3,8 @@ package com.example.practica;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +64,17 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
         public void onClick(View v) {
             Context context = v.getContext();
             Intent intent = new Intent(context, EventActivity.class);
-
+            try {
+                intent.putExtra("eventTilte", eventObject.getString("name"));
+                intent.putExtra("eventDescription", eventObject.getString("description"));
+                intent.putExtra("eventUbi", eventObject.getString("location"));
+                intent.putExtra("eventMaxppl", eventObject.getString("n_participators"));
+                intent.putExtra("eventType", eventObject.getString("type"));
+                intent.putExtra("eventOwner", eventObject.getInt("owner_id"));
+                intent.putExtra("eventID", eventObject.getInt("id"));
+            }  catch (Exception e) {
+                Log.e("error", e.getMessage());
+            }
             context.startActivity(intent);
         }
 
@@ -138,7 +150,7 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
 
             holder.bind(localDataSet.getJSONObject(position));
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("error", e.getMessage());
         }
     }
 
