@@ -72,6 +72,8 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
                 intent.putExtra("eventType", eventObject.getString("type"));
                 intent.putExtra("eventOwner", eventObject.getInt("owner_id"));
                 intent.putExtra("eventID", eventObject.getInt("id"));
+                intent.putExtra("startDate", eventObject.getString("eventStart_date"));
+                intent.putExtra("endDate", eventObject.getString("eventEnd_date"));
             }  catch (Exception e) {
                 Log.e("error", e.getMessage());
             }
