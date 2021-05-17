@@ -46,6 +46,7 @@ public class PerfilOption extends AppCompatActivity {
     private Button save;
 
     private int eventosCreados;
+    private int eventosParticipados;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -70,6 +71,7 @@ public class PerfilOption extends AppCompatActivity {
         save = (Button) findViewById(R.id.buttonSave);
 
         getNumCreated();
+        getNumParticipated();
 
         userName.setText(User.getUser().getUserName());
         name.setHint(User.getUser().getName());
@@ -185,6 +187,48 @@ public class PerfilOption extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 eventosCreados = -1;
+                System.out.println("error: "+error);
+            }
+        }) {
+
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("ID", String.valueOf(User.getUser().getID()));
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                return params;
+            }
+        };
+
+        queue.add(or);
+    }
+
+    private void getNumParticipated() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/assistances";
+
+        JsonArrayRequest or = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    eventosParticipados = response.length();
+                    numParticipatedEvents.setText(String.valueOf(eventosParticipados));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                eventosParticipados = -1;
                 System.out.println("error: "+error);
             }
         }) {
