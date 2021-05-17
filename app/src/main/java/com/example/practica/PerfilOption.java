@@ -1,6 +1,8 @@
 package com.example.practica;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -24,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,9 +47,13 @@ public class PerfilOption extends AppCompatActivity {
     private TextView numParticipatedEvents;
     private TextView numContactedPeople;
     private Button save;
+    private String imagePath;
 
     private int eventosCreados;
     private int eventosParticipados;
+    private int chatsIniciados;
+
+    private static final int PICK_IMAGE = 1;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -72,6 +79,7 @@ public class PerfilOption extends AppCompatActivity {
 
         getNumCreated();
         getNumParticipated();
+        getNumChats();
 
         userName.setText(User.getUser().getUserName());
         name.setHint(User.getUser().getName());
@@ -103,6 +111,17 @@ public class PerfilOption extends AppCompatActivity {
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
                 }
+            }
+        });
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+
+                startActivityForResult(intent, PICK_IMAGE);
             }
         });
     }
@@ -250,5 +269,55 @@ public class PerfilOption extends AppCompatActivity {
         };
 
         queue.add(or);
+    }
+
+    private void getNumChats() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://puigmal.salle.url.edu/api/messages/users";
+
+        JsonArrayRequest or = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    chatsIniciados = response.length();
+                    numContactedPeople.setText(String.valueOf(chatsIniciados));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                chatsIniciados = -1;
+                System.out.println("error: "+error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                return params;
+            }
+        };
+
+        queue.add(or);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == PICK_IMAGE) {
+            if (data == null) {
+                return;
+            }
+            Uri uri = data.getData();
+            imagePath = uri.getPath();
+        }
     }
 }

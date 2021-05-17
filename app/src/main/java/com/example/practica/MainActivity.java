@@ -20,6 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import org.json.JSONObject;
 
@@ -119,23 +122,19 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void userBuilder(String pass) {
-        Base64.Decoder decoder = Base64.getDecoder();
-        String[] chunks = accessToken.split("\\.");
+        try {
+            DecodedJWT jwt = JWT.decode(accessToken);
+            int id = jwt.getClaim("id").asInt();
+            String name = jwt.getClaim("name").asString();
+            String lastname = jwt.getClaim("last_name").asString();
+            String email = jwt.getClaim("email").asString();
+            String image = jwt.getClaim("image").asString();
 
-        String payload = new String(decoder.decode(chunks[1]));
-        payload = payload.replace("{", "");
-        payload = payload.replace("}", "");
-        payload = payload.replace("\"", "");
-
-        String[] camps = payload.split(",");
-
-        String[] id = camps[0].split(":");
-        String[] name = camps[1].split(":");
-        String[] lastname = camps[2].split(":");
-        String[] email = camps[3].split(":");
-        String[] image = camps[4].split(":");
-
-        user = User.set(Integer.parseInt(id[1]), name[1], lastname[1], email[1], pass, image[1], accessToken);
+            user = User.set(id, name, lastname, email, pass, image, accessToken);
+        } catch (JWTDecodeException e) {
+            System.out.println("Error extrayendo user");
+            e.printStackTrace();
+        }
     }
 
 }
