@@ -84,7 +84,9 @@ public class NewEventActivity extends AppCompatActivity {
                     String descrip = description.getText().toString();
                     String ubi = ubication.getText().toString();
                     String strt = start.getText().toString();
+                    strt = dateFormater(strt);
                     String nd = end.getText().toString();
+                    nd = dateFormater(nd);
                     int mxplp = Integer.parseInt(maxPeople.getText().toString());
                     String tpe = type.getText().toString();
                     if (imagePath == null) {
@@ -110,6 +112,18 @@ public class NewEventActivity extends AppCompatActivity {
                 startActivityForResult(intent, PICK_IMAGE);
             }
         });
+    }
+
+    private String dateFormater(String date) {
+        String finalDate;
+
+        String[] parts = date.split(" ");
+        String[] dates = parts[0].split("/");
+        String[] hours = parts[1].split(":");
+
+        finalDate = dates[2] + "-" + dates[1] + "-" + dates[0] + "T" + hours[0] + ":" + hours[1] + ":00.000Z";
+
+        return finalDate;
     }
 
     private void createEventAPI(String nam, String descrip, String ubi, String strt, String nd, int maxppl, String type, String image) {

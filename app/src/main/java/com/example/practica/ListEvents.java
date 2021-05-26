@@ -107,7 +107,7 @@ public class ListEvents extends AppCompatActivity {
     }
 
     private void updateUI() {
-        adapter = new ListEventAdapter(eventsToShow);
+        adapter = new ListEventAdapter(eventsToShow, null);
         eventList.setAdapter(adapter);
     }
 
@@ -139,8 +139,6 @@ public class ListEvents extends AppCompatActivity {
                 try {
                     eventsArray = response;
                     eventsToShow = eventsArray;
-                    adapter = new ListEventAdapter(eventsToShow);
-                    eventList.setAdapter(adapter);
                     updateUI();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -156,7 +154,7 @@ public class ListEvents extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer" + User.getUser().getToken());
+                headers.put("Authorization", "Bearer " + User.getUser().getToken());
                 return headers;
             }
         };
@@ -173,6 +171,8 @@ public class ListEvents extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         userName.setText(User.getUser().getUserName());
+        getEventsFromAPI();
+        updateUI();
     }
 
     @Override

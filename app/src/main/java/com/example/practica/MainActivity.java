@@ -101,12 +101,11 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast toast;
-
-                toast = Toast.makeText(MainActivity.this, "Usuario o Contraseña\nno validos", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(MainActivity.this, "Usuario o Contraseña\nno validos", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP, 0, 40);
-
                 toast.show();
+
+                System.out.println(error.getMessage());
             }
         }) {
             @Override

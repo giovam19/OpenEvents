@@ -9,7 +9,7 @@
     <string name="cpassword">Repeat Password</string>
     <string name="upload_image">Upload image</string>
     <string name="next">N E X T</string>
-    <string name="no_cuenta">No tienes una cuenta?</string>
+    <string name="no_cuenta">You do not have an account?</string>
     <string name="registrate">Registrate</string>
     <string name="username">UserName</string>
     <string name="events">E V E N T S</string>
@@ -24,9 +24,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="perfil">Perfil</string>
-    <string name="eventos_reados">Eventos creados</string>
-    <string name="eventos_guardados">Eventos guardados</string>
-    <string name="eventos_participados">Eventos participados</string>
+    <string name="eventos_reados">Created Events</string>
+    <string name="eventos_guardados">Registered Events</string>
+    <string name="eventos_participados">Participated Events</string>
     <string name="crear_eventos">New event</string>
     <string name="chats">Chats</string>
     <string name="contacto">Contact</string>
@@ -35,16 +35,18 @@
     <string name="ubication">Ubication</string>
     <string name="ubication2">Ubication:</string>
     <string name="creation_date">Creation Date</string>
-    <string name="start_date">Start Day + Hour</string>
-    <string name="end_date">End Day + Hour</string>
+    <string name="start_date">Start: dd/MM/yyyy + hh:mm</string>
+    <string name="end_date">End: dd/MM/yyyy + hh:mm</string>
     <string name="max_people">Max people:</string>
     <string name="type">Type:</string>
     <string name="create">C R E A T E</string>
     <string name="search">Search</string>
-    <string name="eventosCreados">Num eventos creados</string>
-    <string name="eventosParticipados">Num eventos participados</string>
-    <string name="personasContactadas">Num personas contactadas</string>
+    <string name="eventosCreados">Num events created</string>
+    <string name="eventosParticipados">Num events participated</string>
+    <string name="personasContactadas">Num persons contacted</string>
     <string name="save">S A V E</string>
+    <string name="new_text">New Text</string>
+    <string name="desapuntarse">Unregister</string>
 
     <string-array name="filter_modes">
         <item>All Events</item>
@@ -54,5 +56,11 @@
         <item>Games</item>
         <item>Travel</item>
         <item>Other</item>
+    </string-array>
+
+    <string-array name="filter_created">
+        <item>Future</item>
+        <item>Finished</item>
+        <item>Current</item>
     </string-array>
 </resources>

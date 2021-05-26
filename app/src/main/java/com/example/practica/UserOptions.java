@@ -103,7 +103,8 @@ public class UserOptions extends AppCompatActivity {
         chats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: abrir lista de chats.
+                Intent intent = new Intent(UserOptions.this, ListChatActivity.class);
+                startActivity(intent);
             }
         });
 
