@@ -231,7 +231,7 @@ public class PerfilOption extends AppCompatActivity {
 
     private void getNumParticipated() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/assistances";
+        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/assistances/finished";
 
         JsonArrayRequest or = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @RequiresApi(api = Build.VERSION_CODES.O)

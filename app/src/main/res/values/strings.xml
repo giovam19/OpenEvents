@@ -47,6 +47,9 @@
     <string name="save">S A V E</string>
     <string name="new_text">New Text</string>
     <string name="desapuntarse">Unregister</string>
+    <string name="comentario_titulo">Make a commentary</string>
+    <string name="puntuacion">Punctuation: </string>
+    <string name="comentario">Commentary: </string>
 
     <string-array name="filter_modes">
         <item>All Events</item>

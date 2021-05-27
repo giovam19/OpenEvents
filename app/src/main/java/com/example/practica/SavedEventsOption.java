@@ -60,8 +60,6 @@ public class SavedEventsOption extends AppCompatActivity {
 
         filtro.setVisibility(View.INVISIBLE);
 
-        getEventsFromAPI();
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +67,8 @@ public class SavedEventsOption extends AppCompatActivity {
             }
         });
 
+        getEventsFromAPI();
+        //TODO: si es cero agregar algo
         updateUI();
         registerForContextMenu(lista);
     }
@@ -80,7 +80,7 @@ public class SavedEventsOption extends AppCompatActivity {
 
     private void getEventsFromAPI() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/assistances";
+        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/assistances/future";
 
         JsonArrayRequest or = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @RequiresApi(api = Build.VERSION_CODES.O)

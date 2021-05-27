@@ -74,44 +74,34 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
 
         private void selectAction(View v) {
             Context context = v.getContext();
+            Intent intent = new Intent();
+
+            try {
+                intent.putExtra("eventTilte", eventObject.getString("name"));
+                intent.putExtra("eventDescription", eventObject.getString("description"));
+                intent.putExtra("eventUbi", eventObject.getString("location"));
+                intent.putExtra("eventMaxppl", eventObject.getString("n_participators"));
+                intent.putExtra("eventType", eventObject.getString("type"));
+                intent.putExtra("eventOwner", eventObject.getInt("owner_id"));
+                intent.putExtra("eventID", eventObject.getInt("id"));
+                intent.putExtra("startDate", eventObject.getString("eventStart_date"));
+                intent.putExtra("endDate", eventObject.getString("eventEnd_date"));
+            }  catch (Exception e) {
+                Log.e("error", e.getMessage());
+            }
 
             if (context instanceof ListEvents) {
-                Intent intent = new Intent(context, EventActivity.class);
-
-                try {
-                    intent.putExtra("eventTilte", eventObject.getString("name"));
-                    intent.putExtra("eventDescription", eventObject.getString("description"));
-                    intent.putExtra("eventUbi", eventObject.getString("location"));
-                    intent.putExtra("eventMaxppl", eventObject.getString("n_participators"));
-                    intent.putExtra("eventType", eventObject.getString("type"));
-                    intent.putExtra("eventOwner", eventObject.getInt("owner_id"));
-                    intent.putExtra("eventID", eventObject.getInt("id"));
-                    intent.putExtra("startDate", eventObject.getString("eventStart_date"));
-                    intent.putExtra("endDate", eventObject.getString("eventEnd_date"));
-                }  catch (Exception e) {
-                    Log.e("error", e.getMessage());
-                }
+                intent.setClass(context, EventActivity.class);
                 context.startActivity(intent);
 
             } else if (context instanceof CreatedEventsOption) {
                 if (optionListener.getOptionSelected().equals(CreatedEventsOption.FUTURE)) {
-                    Intent intent = new Intent(context, EditEvent.class);
-
-                    try {
-                        intent.putExtra("eventTilte", eventObject.getString("name"));
-                        intent.putExtra("eventDescription", eventObject.getString("description"));
-                        intent.putExtra("eventUbi", eventObject.getString("location"));
-                        intent.putExtra("eventMaxppl", eventObject.getString("n_participators"));
-                        intent.putExtra("eventType", eventObject.getString("type"));
-                        intent.putExtra("eventOwner", eventObject.getInt("owner_id"));
-                        intent.putExtra("eventID", eventObject.getInt("id"));
-                        intent.putExtra("startDate", eventObject.getString("eventStart_date"));
-                        intent.putExtra("endDate", eventObject.getString("eventEnd_date"));
-                    }  catch (Exception e) {
-                        Log.e("error", e.getMessage());
-                    }
+                    intent.setClass(context, EditEvent.class);
                     context.startActivity(intent);
                 }
+            } else if (context instanceof ParticipatedEvents) {
+                intent.setClass(context, PuntuationDialog.class);
+                context.startActivity(intent);
             }
         }
     }

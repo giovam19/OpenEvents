@@ -36,6 +36,10 @@
         <activity
             android:name=".ChangeTextDialog"
             android:theme="@style/LogoutDialog" />
+        <activity
+            android:name=".PuntuationDialog"
+            android:theme="@style/LogoutDialog" />
+
     </application>
 
 </manifest>

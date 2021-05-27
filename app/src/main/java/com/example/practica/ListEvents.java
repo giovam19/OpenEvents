@@ -172,7 +172,7 @@ public class ListEvents extends AppCompatActivity {
         super.onRestart();
         userName.setText(User.getUser().getUserName());
         getEventsFromAPI();
-        updateUI();
+        filter.setSelection(0);
     }
 
     @Override
