@@ -42,7 +42,7 @@ public class UserOptions extends AppCompatActivity {
         listParticipatedEvents = (Button) findViewById(R.id.participadosUO);
         chats = (Button) findViewById(R.id.chatsUO);
 
-        userName.setText(User.getUser().getUserName());
+        userName.setText(User.getInstance().getUserName());
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +87,7 @@ public class UserOptions extends AppCompatActivity {
         listSavedEvents.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserOptions.this, SavedEventsOption.class);
+                Intent intent = new Intent(UserOptions.this, RegisteredEventsOption.class);
                 startActivity(intent);
             }
         });
@@ -114,7 +114,7 @@ public class UserOptions extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        userName.setText(User.getUser().getUserName());
+        userName.setText(User.getInstance().getUserName());
     }
 
     private void closeActivity(boolean isYes) {

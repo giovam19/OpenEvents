@@ -85,7 +85,11 @@ public class EventActivity extends AppCompatActivity {
         ubication.setText(loc);
         maxPpl.setText(maxppl);
         type.setText(tpe);
-        separateDateInitEnd(startDate, endDate);
+        try {
+            separateDateInitEnd(startDate, endDate);
+        } catch (Exception e) {
+            System.out.println("Error en fecha del evento");
+        }
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +206,7 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };
@@ -235,7 +239,7 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };

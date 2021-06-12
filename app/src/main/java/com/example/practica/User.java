@@ -1,7 +1,7 @@
 package com.example.practica;
 
 public class User {
-    private static  User user;
+    private static  User instance;
 
     private int ID;
     private String userName;
@@ -12,7 +12,18 @@ public class User {
     private String image;
     private String token;
 
-    private User(int id, String name, String lastname, String email, String password, String image, String token) {
+    private User () {
+        this.ID = -1;
+        this.name = "";
+        this.lastname = "";
+        this.email = "";
+        this.password = "";
+        this.image = "";
+        this.token = "";
+        this.userName = "";
+    }
+
+    private User (int id, String name, String lastname, String email, String password, String image, String token) {
         this.ID = id;
         this.name = name;
         this.lastname = lastname;
@@ -23,17 +34,22 @@ public class User {
         this.userName = (this.name + " " + this.lastname);
     }
 
-    public static User set(int id, String name, String lastname, String email, String password, String image, String token) {
-        user = new User(id, name, lastname, email, password, image, token);
-        return user;
+    public static User getInstance() {
+        if (instance == null) {
+            instance = new User();
+        }
+        return instance;
     }
 
-    public static User getUser() {
-        return user;
+    public static User getInstance(int id, String name, String lastname, String email, String password, String image, String token) {
+        if (instance == null) {
+            instance = new User(id, name, lastname, email, password, image, token);
+        }
+        return instance;
     }
 
-    public static void setUser(User user) {
-        User.user = user;
+    public static void setInstance(User instance) {
+        User.instance = instance;
     }
 
     public int getID() {

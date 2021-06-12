@@ -28,6 +28,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="?attr/homeAsUpIndicator" />
 
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="99dp"
+            android:layout_marginLeft="99dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="174dp"
+            android:layout_marginRight="174dp"
+            android:text="@string/chats2"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/backButtonEvent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +69,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/textView5"
+            android:id="@+id/searchUser"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="164dp"
@@ -61,7 +78,6 @@
             android:gravity="center"
             android:layout_marginRight="164dp"
             android:hint="@string/search"
-            android:textColorHint="@color/black"
             android:textSize="20dp"
             android:background="@drawable/boton2"
             android:textColor="@color/black"
@@ -74,12 +90,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/eventList"
+        android:id="@+id/usersList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"></androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

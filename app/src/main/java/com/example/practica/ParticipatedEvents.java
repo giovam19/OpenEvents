@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,6 +33,7 @@ public class ParticipatedEvents extends AppCompatActivity {
     private ImageView backButton;
     private Spinner filtro;
     private RecyclerView lista;
+    private TextView emptyList;
 
     private ListEventAdapter adapter;
     private JSONArray eventsToShow;
@@ -47,6 +49,7 @@ public class ParticipatedEvents extends AppCompatActivity {
 
         backButton = (ImageView) findViewById(R.id.backButtonEvent);
         filtro = (Spinner) findViewById(R.id.filterCE);
+        emptyList = (TextView) findViewById(R.id.emptyListText);
         lista = (RecyclerView) findViewById(R.id.eventListCE);
         lista.setLayoutManager(new LinearLayoutManager(this));
         eventsToShow = new JSONArray();
@@ -61,7 +64,6 @@ public class ParticipatedEvents extends AppCompatActivity {
         });
 
         getEventsFromAPI();
-        //TODO: si es cero agregar algo
         updateUI();
     }
 
@@ -72,13 +74,16 @@ public class ParticipatedEvents extends AppCompatActivity {
 
     private void getEventsFromAPI() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/assistances/finished";
+        String url = "http://puigmal.salle.url.edu/api/users/"+User.getInstance().getID()+"/assistances/finished";
 
         JsonArrayRequest arrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 eventsToShow = response;
                 updateUI();
+                if (eventsToShow.length() <= 0) {
+                    emptyList.setVisibility(View.VISIBLE);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -89,7 +94,7 @@ public class ParticipatedEvents extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
 
@@ -97,7 +102,7 @@ public class ParticipatedEvents extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("ID", String.valueOf(User.getUser().getID()));
+                params.put("ID", String.valueOf(User.getInstance().getID()));
                 return params;
             }
         };

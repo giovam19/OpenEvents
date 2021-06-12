@@ -29,7 +29,11 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +68,7 @@ public class ListEvents extends AppCompatActivity {
         eventList.setLayoutManager(new LinearLayoutManager(this));
         eventsToShow = new JSONArray();
 
-        userName.setText(User.getUser().getUserName());
+        userName.setText(User.getInstance().getUserName());
         getEventsFromAPI();
 
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this, R.array.filter_modes, android.R.layout.simple_spinner_item);
@@ -112,21 +116,61 @@ public class ListEvents extends AppCompatActivity {
     }
 
     private JSONArray fillArray(String option) {
-        try {
-            JSONArray array = new JSONArray();
+        JSONArray array = new JSONArray();
 
-            for (int i = 0; i < eventsArray.length(); i++) {
-                String op = (String) eventsArray.getJSONObject(i).get("type");
-                if (op.equals(option)) {
-                    array.put(eventsArray.getJSONObject(i));
+        try {
+            if (option.equals("Other")) {
+                for (int i = 0; i < eventsArray.length(); i++) {
+                    String op = (String) eventsArray.getJSONObject(i).get("type");
+                    if (!op.equals("Music") && !op.equals("Education") && !op.equals("Sport") && !op.equals("Games") && !op.equals("Travel")) {
+                        array.put(eventsArray.getJSONObject(i));
+                    }
+                }
+            } else {
+                for (int i = 0; i < eventsArray.length(); i++) {
+                    String op = (String) eventsArray.getJSONObject(i).get("type");
+                    if (op.equals(option)) {
+                        array.put(eventsArray.getJSONObject(i));
+                    }
                 }
             }
 
             return array;
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
+    }
+
+    private Date parseToDate(String sDate) {
+        try {
+            String[] dates = sDate.split("\\.");
+            String fDate = dates[0].replace("T", " ");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            return format.parse(fDate);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private JSONArray getFutureEvents(JSONArray array) {
+        Date actualDate = new Date();
+        JSONArray future = new JSONArray();
+
+        try {
+            for (int i = 0; i < array.length(); i++) {
+                Date eventDate = parseToDate(array.getJSONObject(i).get("eventStart_date").toString());
+                if (eventDate != null) {
+                    if (eventDate.after(actualDate)) {
+                        future.put(array.getJSONObject(i));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return future;
     }
 
     private void getEventsFromAPI() {
@@ -137,7 +181,7 @@ public class ListEvents extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 try {
-                    eventsArray = response;
+                    eventsArray = getFutureEvents(response);
                     eventsToShow = eventsArray;
                     updateUI();
                 } catch (Exception e) {
@@ -154,7 +198,7 @@ public class ListEvents extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + User.getUser().getToken());
+                headers.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return headers;
             }
         };
@@ -170,7 +214,7 @@ public class ListEvents extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        userName.setText(User.getUser().getUserName());
+        userName.setText(User.getInstance().getUserName());
         getEventsFromAPI();
         filter.setSelection(0);
     }

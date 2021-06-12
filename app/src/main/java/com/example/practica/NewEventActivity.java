@@ -161,13 +161,13 @@ public class NewEventActivity extends AppCompatActivity {
                 toast.show();
 
                 System.out.println("error onresponse " + error);
-                System.out.println(User.getUser().getToken());
+                System.out.println(User.getInstance().getToken());
             }
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + User.getUser().getToken());
+                headers.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return headers;
             }
         };

@@ -8,16 +8,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +21,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +44,7 @@ public class EditEvent extends AppCompatActivity {
     private ImageView backButton;
     private TextView contactButton;
     private TextView eventTitle;
-    private Button apuntarse;
+    private Button guardar;
     private Button eliminar;
     private ImageView imageEvent;
     private TextView monthStart;
@@ -63,6 +58,9 @@ public class EditEvent extends AppCompatActivity {
     private int eventID;
     private int ownerID;
 
+    private String msValue;
+    private String meValue;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +73,7 @@ public class EditEvent extends AppCompatActivity {
         backButton = (ImageView) findViewById(R.id.backButtonEvent);
         contactButton = (TextView) findViewById(R.id.contact);
         eventTitle = (TextView) findViewById(R.id.eventTitle);
-        apuntarse = (Button) findViewById(R.id.añadir_event);
+        guardar = (Button) findViewById(R.id.añadir_event);
         eliminar = (Button) findViewById(R.id.quitar_event);
         imageEvent = (ImageView) findViewById(R.id.image_event);
         monthStart = (TextView) findViewById(R.id.monthTextStart);
@@ -88,13 +86,20 @@ public class EditEvent extends AppCompatActivity {
         type = (TextView) findViewById(R.id.typeText);
 
         contactButton.setVisibility(View.INVISIBLE);
-        apuntarse.setVisibility(View.INVISIBLE);
-        eliminar.setText("Eliminar");
-        eliminar.setTextSize(12);
+
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) eliminar.getLayoutParams();
         params.width = 250;
         params.setMarginEnd(80);
+        eliminar.setText("Eliminar");
+        eliminar.setTextSize(12);
         eliminar.setLayoutParams(params);
+
+        ConstraintLayout.LayoutParams aparams = (ConstraintLayout.LayoutParams) guardar.getLayoutParams();
+        aparams.width = 250;
+        aparams.setMarginStart(80);
+        guardar.setText("Guardar");
+        guardar.setTextSize(12);
+        guardar.setLayoutParams(aparams);
 
         String title = getIntent().getStringExtra("eventTilte");
         String descript = getIntent().getStringExtra("eventDescription");
@@ -106,14 +111,15 @@ public class EditEvent extends AppCompatActivity {
         eventID = getIntent().getIntExtra("eventID", -1);
         ownerID = getIntent().getIntExtra("eventOwner", -1);
 
-        System.out.println(eventID + " " + ownerID);
-
         eventTitle.setText(title);
         description.setText(descript);
         ubication.setText(loc);
         maxPpl.setText(maxppl);
         type.setText(tpe);
         separateDateInitEnd(startDate, endDate);
+
+        msValue = parseMonth(monthStart.getText().toString());
+        meValue = parseMonth(monthEnd.getText().toString());
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +132,19 @@ public class EditEvent extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 deleteEvent();
+            }
+        });
+
+        guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (description.getText().toString().length() < 10) {
+                    Toast toast = Toast.makeText(EditEvent.this, "Description should have more than 10 characters", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                } else {
+                    editEventToAPI();
+                }
             }
         });
 
@@ -162,6 +181,42 @@ public class EditEvent extends AppCompatActivity {
                 Intent intent = new Intent(EditEvent.this, ChangeTextDialog.class);
                 intent.putExtra("actual", maxPpl.getText().toString());
                 startActivityForResult(intent, MAX_PPL_CODE);
+            }
+        });
+
+        monthStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditEvent.this, ChangeTextDialog.class);
+                intent.putExtra("actual", monthStart.getText().toString());
+                startActivityForResult(intent, START_MONTH_CODE);
+            }
+        });
+
+        dayStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditEvent.this, ChangeTextDialog.class);
+                intent.putExtra("actual", dayStart.getText().toString());
+                startActivityForResult(intent, START_DAY_CODE);
+            }
+        });
+
+        monthEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditEvent.this, ChangeTextDialog.class);
+                intent.putExtra("actual", monthEnd.getText().toString());
+                startActivityForResult(intent, END_MONTH_CODE);
+            }
+        });
+
+        dayEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditEvent.this, ChangeTextDialog.class);
+                intent.putExtra("actual", dayEnd.getText().toString());
+                startActivityForResult(intent, END_DAY_CODE);
             }
         });
 
@@ -228,6 +283,37 @@ public class EditEvent extends AppCompatActivity {
         }
     }
 
+    private String parseMonth(String month) {
+        switch (month) {
+            case "Jan":
+                return "01";
+            case  "Feb":
+                return "02";
+            case "Mar":
+                return "03";
+            case "Apr":
+                return "04";
+            case "May":
+                return "05";
+            case "Jun":
+                return "06";
+            case "Jul":
+                return "07";
+            case "Aug":
+                return "08";
+            case "Sep":
+                return "09";
+            case "Oct":
+                return "10";
+            case "Nov":
+                return "11";
+            case "Dec":
+                return "12";
+            default:
+                return "00";
+        }
+    }
+
     private void deleteEvent() {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://puigmal.salle.url.edu/api/events/"+eventID;
@@ -250,7 +336,7 @@ public class EditEvent extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + User.getUser().getToken());
+                headers.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return headers;
             }
         };
@@ -288,13 +374,68 @@ public class EditEvent extends AppCompatActivity {
                 case TYPE_CODE:
                     type.setText(newText);
                     break;
+                case START_MONTH_CODE:
+                    monthStart.setText(newText);
+                    msValue = parseMonth(newText);
+                    break;
+                case START_DAY_CODE:
+                    dayStart.setText(newText);
+                    break;
+                case END_MONTH_CODE:
+                    monthEnd.setText(newText);
+                    meValue = parseMonth(newText);
+                    break;
+                case END_DAY_CODE:
+                    dayEnd.setText(newText);
+                    break;
             }
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //TODO: llamar actualizacion de evento.
+    private void editEventToAPI() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://puigmal.salle.url.edu/api/events/"+eventID;
+
+       JSONObject params = new JSONObject();
+       try {
+           params.put("name", eventTitle.getText().toString());
+           params.put("location", ubication.getText().toString());
+           params.put("description", description.getText().toString());
+           params.put("eventStart_date", "2021-"+msValue+"-"+dayStart.getText().toString()+"T15:00:00.000Z");
+           params.put("eventEnd_date", "2021-"+meValue+"-"+dayEnd.getText().toString()+"T15:00:00.000Z");
+           params.put("n_participators", Integer.parseInt(maxPpl.getText().toString()));
+           System.out.println(params.get("eventStart_date"));
+           params.put("type", type.getText().toString());
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println(response);
+                Toast toast = Toast.makeText(EditEvent.this, "Edit successfully", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 0);
+                toast.show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast toast = Toast.makeText(EditEvent.this, "Error editing event", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 0);
+                toast.show();
+                System.out.println(error);
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + User.getInstance().getToken());
+                return headers;
+            }
+        };
+
+        queue.add(request);
     }
 }

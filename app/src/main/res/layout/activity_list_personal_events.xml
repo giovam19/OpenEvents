@@ -69,6 +69,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/emptyListText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="93dp"
+        android:layout_marginLeft="93dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="94dp"
+        android:layout_marginRight="94dp"
+        android:text="@string/no_registrados"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/eventListCE"
         android:layout_width="match_parent"

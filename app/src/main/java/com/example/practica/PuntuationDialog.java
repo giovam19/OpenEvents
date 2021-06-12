@@ -69,7 +69,7 @@ public class PuntuationDialog extends AppCompatActivity {
 
     private void getActualComment() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://puigmal.salle.url.edu/api/events/"+eventID+"/assistances/"+User.getUser().getID();
+        String url = "http://puigmal.salle.url.edu/api/events/"+eventID+"/assistances/"+User.getInstance().getID();
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -98,7 +98,7 @@ public class PuntuationDialog extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };
@@ -161,7 +161,7 @@ public class PuntuationDialog extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,10 +35,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SavedEventsOption extends AppCompatActivity {
+public class RegisteredEventsOption extends AppCompatActivity {
     private ImageView backButton;
     private Spinner filtro;
     private RecyclerView lista;
+    private TextView emptyList;
 
     private ListEventAdapter adapter;
     private JSONArray eventsToShow;
@@ -55,6 +56,7 @@ public class SavedEventsOption extends AppCompatActivity {
         backButton = (ImageView) findViewById(R.id.backButtonEvent);
         filtro = (Spinner) findViewById(R.id.filterCE);
         lista = (RecyclerView) findViewById(R.id.eventListCE);
+        emptyList = (TextView) findViewById(R.id.emptyListText);
         lista.setLayoutManager(new LinearLayoutManager(this));
         eventsToShow = new JSONArray();
 
@@ -68,8 +70,8 @@ public class SavedEventsOption extends AppCompatActivity {
         });
 
         getEventsFromAPI();
-        //TODO: si es cero agregar algo
         updateUI();
+
         registerForContextMenu(lista);
     }
 
@@ -80,7 +82,7 @@ public class SavedEventsOption extends AppCompatActivity {
 
     private void getEventsFromAPI() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/assistances/future";
+        String url = "http://puigmal.salle.url.edu/api/users/"+User.getInstance().getID()+"/assistances/future";
 
         JsonArrayRequest or = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -88,6 +90,10 @@ public class SavedEventsOption extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 eventsToShow = response;
                 updateUI();
+
+                if (eventsToShow == null || eventsToShow.length() <= 0) {
+                    emptyList.setVisibility(View.VISIBLE);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -100,14 +106,14 @@ public class SavedEventsOption extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("ID", String.valueOf(User.getUser().getID()));
+                params.put("ID", String.valueOf(User.getInstance().getID()));
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };
@@ -123,7 +129,7 @@ public class SavedEventsOption extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(JSONObject response) {
-                Toast toast = Toast.makeText(SavedEventsOption.this, "Confirmed Non Assistance", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(RegisteredEventsOption.this, "Confirmed Non Assistance", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP, 0, 40);
                 toast.show();
 
@@ -132,7 +138,7 @@ public class SavedEventsOption extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast toast = Toast.makeText(SavedEventsOption.this, "Error making the request", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(RegisteredEventsOption.this, "Error making the request", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP, 0, 40);
                 toast.show();
             }
@@ -140,7 +146,7 @@ public class SavedEventsOption extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };

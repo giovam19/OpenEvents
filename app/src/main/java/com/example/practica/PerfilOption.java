@@ -81,10 +81,10 @@ public class PerfilOption extends AppCompatActivity {
         getNumParticipated();
         getNumChats();
 
-        userName.setText(User.getUser().getUserName());
-        name.setHint(User.getUser().getName());
-        lastname.setHint(User.getUser().getLastname());
-        email.setHint(User.getUser().getEmail());
+        userName.setText(User.getInstance().getUserName());
+        name.setHint(User.getInstance().getName());
+        lastname.setHint(User.getInstance().getLastname());
+        email.setHint(User.getInstance().getEmail());
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +105,7 @@ public class PerfilOption extends AppCompatActivity {
                 if (pass.equals(repPass)) {
                     actualiceUserData(nam, lastnam, mail, pass);
                     actUserRequest(pass);
-                    userName.setText(User.getUser().getUserName());
+                    userName.setText(User.getInstance().getUserName());
                 } else {
                     Toast toast = Toast.makeText(PerfilOption.this, "Passwords don't match!", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP, 0, 0);
@@ -127,19 +127,19 @@ public class PerfilOption extends AppCompatActivity {
     }
 
     private void actualiceUserData(String nam, String lastnam, String mail, String pass) {
-        if (!nam.equals(User.getUser().getName()) && !nam.equals("") && !nam.equals(null)) {
-            User.getUser().setName(nam);
+        if (!nam.equals(User.getInstance().getName()) && !nam.equals("") && !nam.equals(null)) {
+            User.getInstance().setName(nam);
         }
-        if (!lastnam.equals(User.getUser().getLastname()) && !lastnam.equals("") && !lastnam.equals(null)) {
-            User.getUser().setLastname(lastnam);
+        if (!lastnam.equals(User.getInstance().getLastname()) && !lastnam.equals("") && !lastnam.equals(null)) {
+            User.getInstance().setLastname(lastnam);
         }
-        if (!mail.equals(User.getUser().getEmail()) && !mail.equals("") && !mail.equals(null)) {
-            User.getUser().setEmail(mail);
+        if (!mail.equals(User.getInstance().getEmail()) && !mail.equals("") && !mail.equals(null)) {
+            User.getInstance().setEmail(mail);
         }
-        if (!pass.equals(User.getUser().getPassword()) && !pass.equals("") && !pass.equals(null)) {
-            User.getUser().setPassword(pass);
+        if (!pass.equals(User.getInstance().getPassword()) && !pass.equals("") && !pass.equals(null)) {
+            User.getInstance().setPassword(pass);
         }
-        User.getUser().actUserName();
+        User.getInstance().actUserName();
     }
 
     private void actUserRequest(String pass) {
@@ -148,10 +148,10 @@ public class PerfilOption extends AppCompatActivity {
 
         JSONObject params = new JSONObject();
         try {
-            params.put("name", User.getUser().getName());
-            params.put("last_name", User.getUser().getLastname());
-            params.put("email", User.getUser().getEmail());
-            params.put("password", User.getUser().getPassword());
+            params.put("name", User.getInstance().getName());
+            params.put("last_name", User.getInstance().getLastname());
+            params.put("email", User.getInstance().getEmail());
+            params.put("password", User.getInstance().getPassword());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,7 +179,7 @@ public class PerfilOption extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };
@@ -189,7 +189,7 @@ public class PerfilOption extends AppCompatActivity {
 
     private void getNumCreated() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/events";
+        String url = "http://puigmal.salle.url.edu/api/users/"+User.getInstance().getID()+"/events";
 
         JsonArrayRequest or = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -214,14 +214,14 @@ public class PerfilOption extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("ID", String.valueOf(User.getUser().getID()));
+                params.put("ID", String.valueOf(User.getInstance().getID()));
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };
@@ -231,7 +231,7 @@ public class PerfilOption extends AppCompatActivity {
 
     private void getNumParticipated() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/assistances/finished";
+        String url = "http://puigmal.salle.url.edu/api/users/"+User.getInstance().getID()+"/assistances/finished";
 
         JsonArrayRequest or = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -256,14 +256,14 @@ public class PerfilOption extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("ID", String.valueOf(User.getUser().getID()));
+                params.put("ID", String.valueOf(User.getInstance().getID()));
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };
@@ -296,7 +296,7 @@ public class PerfilOption extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + User.getUser().getToken());
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return params;
             }
         };

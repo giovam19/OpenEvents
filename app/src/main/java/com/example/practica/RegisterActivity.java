@@ -75,7 +75,6 @@ public class RegisterActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //cargar datos a la api.
                 String name, lastname, mail, pass, cpassw;
                 Toast toast;
 

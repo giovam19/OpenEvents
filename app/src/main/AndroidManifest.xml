@@ -21,8 +21,8 @@
         <activity android:name=".UserOptions" />
         <activity android:name=".PerfilOption" />
         <activity android:name=".CreatedEventsOption" />
-        <activity android:name=".SavedEventsOption" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".RegisteredEventsOption" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

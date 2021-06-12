@@ -29,6 +29,7 @@
     <string name="eventos_participados">Participated Events</string>
     <string name="crear_eventos">New event</string>
     <string name="chats">Chats</string>
+    <string name="chats2">C H A T S</string>
     <string name="contacto">Contact</string>
     <string name="descripcion">Description:</string>
     <string name="description">Description</string>
@@ -50,12 +51,13 @@
     <string name="comentario_titulo">Make a commentary</string>
     <string name="puntuacion">Punctuation: </string>
     <string name="comentario">Commentary: </string>
+    <string name="no_registrados">There is no registered future events!</string>
 
     <string-array name="filter_modes">
         <item>All Events</item>
         <item>Music</item>
         <item>Education</item>
-        <item>Sports</item>
+        <item>Sport</item>
         <item>Games</item>
         <item>Travel</item>
         <item>Other</item>

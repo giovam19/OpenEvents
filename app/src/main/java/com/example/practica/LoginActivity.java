@@ -26,11 +26,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import org.json.JSONObject;
 
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText email;
     private EditText pass;
     private Button loginButton;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton = (Button) findViewById(R.id.nextLoginButton);
         regsitrationButton = (TextView) findViewById(R.id.registrationButton);
         accessToken = null;
+        User.setInstance(null);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         regsitrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     accessToken = response.getString("accessToken");
-                    Intent intent = new Intent(MainActivity.this, ListEvents.class);
+                    Intent intent = new Intent(LoginActivity.this, ListEvents.class);
                     userBuilder(passUser);
                     startActivity(intent);
                 } catch (Exception e) {
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast toast = Toast.makeText(MainActivity.this, "Usuario o Contraseña\nno validos", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(LoginActivity.this, "Usuario o Contraseña\nno validos", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP, 0, 40);
                 toast.show();
 
@@ -129,11 +129,16 @@ public class MainActivity extends AppCompatActivity {
             String email = jwt.getClaim("email").asString();
             String image = jwt.getClaim("image").asString();
 
-            user = User.set(id, name, lastname, email, pass, image, accessToken);
+            user = User.getInstance(id, name, lastname, email, pass, image, accessToken);
         } catch (JWTDecodeException e) {
             System.out.println("Error extrayendo user");
             e.printStackTrace();
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        User.setInstance(null);
+    }
 }

@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -29,9 +30,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreatedEventsOption extends AppCompatActivity implements FilterOptionListener {
-    private static final String URL_FUTURE = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/events/future";
-    private static final String URL_FINISHED = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/events/finished";
-    private static final String URL_CURRENT = "http://puigmal.salle.url.edu/api/users/"+User.getUser().getID()+"/events/current";
+    private static final String URL_FUTURE = "http://puigmal.salle.url.edu/api/users/"+User.getInstance().getID()+"/events/future";
+    private static final String URL_FINISHED = "http://puigmal.salle.url.edu/api/users/"+User.getInstance().getID()+"/events/finished";
+    private static final String URL_CURRENT = "http://puigmal.salle.url.edu/api/users/"+User.getInstance().getID()+"/events/current";
     public static final String FINISHED = "Finished";
     public static final String FUTURE = "Future";
     public static final String CURRENT = "Current";
@@ -40,6 +41,7 @@ public class CreatedEventsOption extends AppCompatActivity implements FilterOpti
     private Spinner filter;
     private RecyclerView lista;
     private String option;
+    private TextView emptyList;
 
     private JSONArray eventsFinished;
     private JSONArray eventsFuture;
@@ -61,13 +63,13 @@ public class CreatedEventsOption extends AppCompatActivity implements FilterOpti
 
         backButton = (ImageView) findViewById(R.id.backButtonEvent);
         filter = (Spinner) findViewById(R.id.filterCE);
+        emptyList = (TextView) findViewById(R.id.emptyListText);
         lista = (RecyclerView) findViewById(R.id.eventListCE);
         lista.setLayoutManager(new LinearLayoutManager(this));
         eventsToShow = new JSONArray();
-
-        getEventsFromAPI(URL_FINISHED, FINISHED);
-        getEventsFromAPI(URL_FUTURE, FUTURE);
-        getEventsFromAPI(URL_CURRENT, CURRENT);
+        eventsFinished = new JSONArray();
+        eventsFuture = new JSONArray();
+        eventsCurrent = new JSONArray();
 
         filter.setAdapter(adapterSpinner);
         filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -88,6 +90,10 @@ public class CreatedEventsOption extends AppCompatActivity implements FilterOpti
                 finish();
             }
         });
+
+        getEventsFromAPI(URL_FINISHED, FINISHED);
+        getEventsFromAPI(URL_CURRENT, CURRENT);
+        getEventsFromAPI(URL_FUTURE, FUTURE);
     }
 
     private void updateUI() {
@@ -109,6 +115,15 @@ public class CreatedEventsOption extends AppCompatActivity implements FilterOpti
                 array = eventsCurrent;
                 break;
         }
+
+        if (array.length() <= 0) {
+            String message = "There is no created "+ option +" event";
+            emptyList.setVisibility(View.VISIBLE);
+            emptyList.setText(message);
+        } else {
+            emptyList.setVisibility(View.INVISIBLE);
+        }
+
         return array;
     }
 
@@ -124,6 +139,12 @@ public class CreatedEventsOption extends AppCompatActivity implements FilterOpti
                         break;
                     case FUTURE:
                         eventsFuture = response;
+                        if (eventsFuture.length() <= 0) {
+                            emptyList.setVisibility(View.VISIBLE);
+                            emptyList.setText("There is no created Future event");
+                        } else {
+                            emptyList.setVisibility(View.INVISIBLE);
+                        }
                         break;
                     case CURRENT:
                         eventsCurrent = response;
@@ -143,14 +164,14 @@ public class CreatedEventsOption extends AppCompatActivity implements FilterOpti
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("ID", String.valueOf(User.getUser().getID()));
+                params.put("ID", String.valueOf(User.getInstance().getID()));
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + User.getUser().getToken());
+                headers.put("Authorization", "Bearer " + User.getInstance().getToken());
                 return headers;
             }
         };
