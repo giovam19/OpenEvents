@@ -25,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -154,7 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
             Uri uri = data.getData();
-            imagePath = uri.getPath();
+            //userImage.setImageURI(uri);
             Picasso.get().load(uri).into(userImage);
             userImage.setVisibility(View.VISIBLE);
         }

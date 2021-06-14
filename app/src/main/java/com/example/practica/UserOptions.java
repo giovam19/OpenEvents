@@ -21,6 +21,7 @@ public class UserOptions extends AppCompatActivity {
     private Button listCreatedEvents;
     private Button listSavedEvents;
     private Button listParticipatedEvents;
+    private Button timeline;
     private Button chats;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -41,6 +42,7 @@ public class UserOptions extends AppCompatActivity {
         listSavedEvents = (Button) findViewById(R.id.guardadosUO);
         listParticipatedEvents = (Button) findViewById(R.id.participadosUO);
         chats = (Button) findViewById(R.id.chatsUO);
+        timeline = (Button) findViewById(R.id.timelineUO);
 
         userName.setText(User.getInstance().getUserName());
 
@@ -96,6 +98,14 @@ public class UserOptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserOptions.this, ParticipatedEvents.class);
+                startActivity(intent);
+            }
+        });
+
+        timeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserOptions.this, TimelineActivity.class);
                 startActivity(intent);
             }
         });

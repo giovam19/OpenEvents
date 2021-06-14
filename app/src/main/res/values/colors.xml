@@ -15,4 +15,5 @@
     <color name="medium_blue">#4ca5ff</color>
     <color name="light_violet">#E3DBF7</color>
     <color name="orange">#F9A52C</color>
+    <color name="gray">#808080</color>
 </resources>

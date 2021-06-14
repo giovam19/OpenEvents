@@ -1,5 +1,7 @@
 package com.example.practica;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,9 +42,17 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.UserVi
 
         @Override
         public void onClick(View v) {
-            Toast toast = Toast.makeText(v.getContext(), "Clickado", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP, 0, 0);
-            toast.show();
+            try {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("userID", userObject.getString("id"));
+                intent.putExtra("userName", userObject.getString("name"));
+                intent.putExtra("userLastName", userObject.getString("last_name"));
+                intent.putExtra("userImage", userObject.getString("image"));
+                context.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         public void bind(JSONObject user) {

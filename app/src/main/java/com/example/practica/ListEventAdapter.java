@@ -164,7 +164,7 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_event, parent, false);
+                    .inflate(R.layout.item_event, parent, false);
 
         return new ViewHolder(view, optionListener);
     }
@@ -179,6 +179,8 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
             holder.getMonth().setText(month);
             holder.getDay().setText(day);
             holder.getTitle().setText(title);
+
+
 
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

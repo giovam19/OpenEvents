@@ -19,9 +19,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -101,7 +104,7 @@ public class EventActivity extends AppCompatActivity {
         contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: abrir chat del creador
+                getOwner();
             }
         });
 
@@ -244,6 +247,41 @@ public class EventActivity extends AppCompatActivity {
             }
         };
 
+        queue.add(or);
+    }
+
+    private void getOwner() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://puigmal.salle.url.edu/api/users/"+ownerID;
+
+        JsonArrayRequest or = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    Intent intent = new Intent(EventActivity.this, ChatActivity.class);
+                    intent.putExtra("userID", response.getJSONObject(0).getString("id"));
+                    intent.putExtra("userName", response.getJSONObject(0).getString("name"));
+                    intent.putExtra("userLastName", response.getJSONObject(0).getString("last_name"));
+                    intent.putExtra("userImage", response.getJSONObject(0).getString("image"));
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + User.getInstance().getToken());
+                return params;
+            }
+        };
         queue.add(or);
     }
 }
