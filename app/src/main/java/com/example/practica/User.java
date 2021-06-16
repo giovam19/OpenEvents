@@ -2,6 +2,7 @@ package com.example.practica;
 
 public class User {
     private static  User instance;
+    public static int defaultImage = android.R.drawable.ic_dialog_info;
 
     private int ID;
     private String userName;

@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -76,7 +78,14 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.UserVi
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         try {
-            String name = (String) localDataSet.getJSONObject(position).get("name");
+            String name = localDataSet.getJSONObject(position).getString("name");
+            String image = localDataSet.getJSONObject(position).getString("image");
+
+            if (image.contains("https://") || image.contains("http://"))
+                Picasso.get().load(image).into(holder.getUserImage());
+            else
+                Picasso.get().load(User.defaultImage).into(holder.getUserImage());
+
             holder.getUserName().setText(name);
 
             holder.bind(localDataSet.getJSONObject(position));

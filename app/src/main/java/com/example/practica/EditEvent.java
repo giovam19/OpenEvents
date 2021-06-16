@@ -394,7 +394,7 @@ public class EditEvent extends AppCompatActivity {
 
     private void editEventToAPI() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://puigmal.salle.url.edu/api/events/"+eventID;
+        String url = ("http://puigmal.salle.url.edu/api/events/"+eventID);
 
        JSONObject params = new JSONObject();
        try {
@@ -404,7 +404,6 @@ public class EditEvent extends AppCompatActivity {
            params.put("eventStart_date", "2021-"+msValue+"-"+dayStart.getText().toString()+"T15:00:00.000Z");
            params.put("eventEnd_date", "2021-"+meValue+"-"+dayEnd.getText().toString()+"T15:00:00.000Z");
            params.put("n_participators", Integer.parseInt(maxPpl.getText().toString()));
-           System.out.println(params.get("eventStart_date"));
            params.put("type", type.getText().toString());
        } catch (Exception e) {
            e.printStackTrace();

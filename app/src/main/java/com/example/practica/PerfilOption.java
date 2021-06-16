@@ -36,6 +36,7 @@ import java.util.Map;
 
 public class PerfilOption extends AppCompatActivity {
     private ImageView backButton;
+    private ImageView userImage;
     private TextView userName;
     private EditText name;
     private EditText lastname;
@@ -65,6 +66,7 @@ public class PerfilOption extends AppCompatActivity {
         window.setStatusBarColor(this.getResources().getColor(R.color.light_blue));
 
         backButton = (ImageView) findViewById(R.id.backButton);
+        userImage = (ImageView) findViewById(R.id.userImageUO);
         userName = (TextView) findViewById(R.id.userNamePO);
         name = (EditText) findViewById(R.id.userName);
         lastname = (EditText) findViewById(R.id.user);
@@ -85,6 +87,9 @@ public class PerfilOption extends AppCompatActivity {
         name.setHint(User.getInstance().getName());
         lastname.setHint(User.getInstance().getLastname());
         email.setHint(User.getInstance().getEmail());
+        if (User.getInstance().getImage().contains("https://") || User.getInstance().getImage().contains("http://"))
+            Picasso.get().load(User.getInstance().getImage()).into(userImage);
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +144,10 @@ public class PerfilOption extends AppCompatActivity {
         if (!pass.equals(User.getInstance().getPassword()) && !pass.equals("") && !pass.equals(null)) {
             User.getInstance().setPassword(pass);
         }
+        if (imagePath.contains("https://") || imagePath.contains("http://")) {
+            User.getInstance().setImage(imagePath);
+        }
+
         User.getInstance().actUserName();
     }
 
@@ -164,6 +173,9 @@ public class PerfilOption extends AppCompatActivity {
                     Toast toast = Toast.makeText(PerfilOption.this, "Actualizacion Succesfull!", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP, 0, 40);
                     toast.show();
+                    if (User.getInstance().getImage().contains("https://") || User.getInstance().getImage().contains("http://"))
+                        Picasso.get().load(User.getInstance().getImage()).into(userImage);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

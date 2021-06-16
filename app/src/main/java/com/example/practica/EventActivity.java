@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,6 +81,7 @@ public class EventActivity extends AppCompatActivity {
         String tpe = getIntent().getStringExtra("eventType");
         String startDate = getIntent().getStringExtra("startDate");
         String endDate = getIntent().getStringExtra("endDate");
+        String image = getIntent().getStringExtra("image");
         ownerID = getIntent().getIntExtra("eventOwner", -1);
         eventID = getIntent().getIntExtra("eventID", -1);
 
@@ -88,10 +90,17 @@ public class EventActivity extends AppCompatActivity {
         ubication.setText(loc);
         maxPpl.setText(maxppl);
         type.setText(tpe);
+        if (image.contains("http://") || image.contains("https://"))
+            Picasso.get().load(image).into(imageEvent);
+        else
+            Picasso.get().load(User.defaultImage).into(imageEvent);
+
         try {
             separateDateInitEnd(startDate, endDate);
         } catch (Exception e) {
-            System.out.println("Error en fecha del evento");
+            Toast toast = Toast.makeText(EventActivity.this, "Error loading event date!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
         }
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +281,9 @@ public class EventActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println(error);
+                Toast toast = Toast.makeText(EventActivity.this, "Error contacting the user!", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 40);
+                toast.show();
             }
         }) {
             @Override

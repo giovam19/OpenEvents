@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
@@ -69,6 +70,9 @@ public class ListEvents extends AppCompatActivity {
         eventsToShow = new JSONArray();
 
         userName.setText(User.getInstance().getUserName());
+        if (User.getInstance().getImage().contains("https://") || User.getInstance().getImage().contains("http://"))
+            Picasso.get().load(User.getInstance().getImage()).into(userImage);
+
         getEventsFromAPI();
 
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this, R.array.filter_modes, android.R.layout.simple_spinner_item);

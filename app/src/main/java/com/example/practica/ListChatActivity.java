@@ -153,7 +153,6 @@ public class ListChatActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 allUsers = response;
-                System.out.println(response);
             }
         }, new Response.ErrorListener() {
             @Override

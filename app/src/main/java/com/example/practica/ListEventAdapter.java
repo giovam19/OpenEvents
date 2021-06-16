@@ -2,6 +2,7 @@ package com.example.practica;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -13,12 +14,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.ViewHolder> {
-
     private JSONArray localDataSet;
     private FilterOptionListener optionListener;
     private int eventID;
@@ -41,6 +43,7 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
             image = (ImageView) itemView.findViewById(R.id.taskImage);
             optionListener = listener;
             itemView.setOnCreateContextMenuListener(this);
+            setIsRecyclable(false);
         }
 
         public TextView getMonth() {
@@ -86,6 +89,7 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
                 intent.putExtra("eventID", eventObject.getInt("id"));
                 intent.putExtra("startDate", eventObject.getString("eventStart_date"));
                 intent.putExtra("endDate", eventObject.getString("eventEnd_date"));
+                intent.putExtra("image", eventObject.getString("image"));
             }  catch (Exception e) {
                 Log.e("error", e.getMessage());
             }
@@ -174,13 +178,16 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
         try {
             String month = createMonth((String) localDataSet.getJSONObject(position).get("date"));
             String day = createDay((String) localDataSet.getJSONObject(position).get("date"));
-            String title = (String)localDataSet.getJSONObject(position).get("name");
+            String title = (String) localDataSet.getJSONObject(position).get("name");
+            String imagen = localDataSet.getJSONObject(position).getString("image");
 
             holder.getMonth().setText(month);
             holder.getDay().setText(day);
             holder.getTitle().setText(title);
-
-
+            if (imagen.contains("http://") || imagen.contains("https://"))
+                Picasso.get().load(imagen).into(holder.getImage());
+            else
+                Picasso.get().load(User.defaultImage).into(holder.getImage());
 
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -208,5 +215,4 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.View
             return 0;
         }
     }
-
 }

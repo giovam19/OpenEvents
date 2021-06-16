@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class UserOptions extends AppCompatActivity {
     private ImageView backButton;
+    private ImageView userImage;
     private TextView logout;
     private TextView userName;
     private Button newEvent;
@@ -34,6 +37,7 @@ public class UserOptions extends AppCompatActivity {
         window.setStatusBarColor(this.getResources().getColor(R.color.light_blue));
 
         backButton = (ImageView) findViewById(R.id.backButton);
+        userImage = (ImageView) findViewById(R.id.userImageUO);
         logout = (TextView) findViewById(R.id.logoutUO);
         userName = (TextView) findViewById(R.id.userNameUO);
         newEvent = (Button) findViewById(R.id.newEventUO);
@@ -45,6 +49,8 @@ public class UserOptions extends AppCompatActivity {
         timeline = (Button) findViewById(R.id.timelineUO);
 
         userName.setText(User.getInstance().getUserName());
+        if (User.getInstance().getImage().contains("https://") || User.getInstance().getImage().contains("http://"))
+            Picasso.get().load(User.getInstance().getImage()).into(userImage);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
