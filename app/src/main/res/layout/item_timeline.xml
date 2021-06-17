@@ -38,8 +38,8 @@
             android:id="@+id/descriptionTimeline"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:layout_marginLeft="44dp"
+            android:layout_marginStart="43dp"
+            android:layout_marginLeft="43dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="116dp"
             android:layout_marginRight="116dp"
@@ -49,7 +49,7 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/taskTitle"
+            app:layout_constraintStart_toEndOf="@+id/typeTL"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -57,23 +57,26 @@
             android:id="@+id/initMonthTL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="276dp"
-            android:layout_marginLeft="276dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/month"
             android:textColor="@color/orange"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/descriptionTimeline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/initDayTL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginLeft="17dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginRight="33dp"
             android:text="@string/day"
             android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/initMonthTL"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,12 +84,12 @@
             android:id="@+id/endMonthTL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="276dp"
-            android:layout_marginLeft="276dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="20dp"
             android:text="@string/month"
             android:textColor="@color/orange"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/descriptionTimeline"
             app:layout_constraintTop_toBottomOf="@+id/initMonthTL" />
 
         <TextView
@@ -96,8 +99,11 @@
             android:layout_marginStart="17dp"
             android:layout_marginLeft="17dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginRight="33dp"
             android:text="@string/day"
             android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/endMonthTL"
             app:layout_constraintTop_toBottomOf="@+id/initDayTL" />
 
