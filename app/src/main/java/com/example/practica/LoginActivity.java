@@ -56,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String emailUser, passUser;
 
-                emailUser = "algo@gmail.com";//email.getText().toString();
-                passUser = "123456789";//pass.getText().toString();
+                emailUser = email.getText().toString();
+                passUser = pass.getText().toString();
 
                 loginRequest(emailUser, passUser);
 
